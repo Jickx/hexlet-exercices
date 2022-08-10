@@ -17,8 +17,8 @@ matrix = [
     [1, 2, 3],
     [4, 5, 6],
 ]
-
-assert mirror_matrix(matrix) == [
+mirror_matrix(matrix)
+assert matrix == [
     [1, 2, 1], [4, 5, 4],
     ]
 matrix = [
@@ -29,8 +29,8 @@ matrix = [
     [51, 52, 53, 54, 55, 56],
     [61, 62, 63, 64, 65, 66],
 ]
-
-assert mirror_matrix(matrix) == [
+mirror_matrix(matrix)
+assert matrix == [
     [11, 12, 13, 13, 12, 11],
     [21, 22, 23, 23, 22, 21],
     [31, 32, 33, 33, 32, 31],
