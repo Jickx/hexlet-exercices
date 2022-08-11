@@ -41,7 +41,7 @@ assert sum_of_intervals([
 ]) == 6
 
 assert sum_of_intervals([
-            [7, 10],
-            [1, 4],
-            [2, 5],
+    [7, 10],
+    [1, 4],
+    [2, 5],
 ]) == 7
