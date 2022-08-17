@@ -10,19 +10,20 @@
 # Напишите функцию to_rna, которая принимает на вход цепь ДНК и возвращает
 # соответствующую цепь РНК (совершает транскрипцию РНК).
 
+MAPPING = {
+    'G': 'C',
+    'C': 'G',
+    'T': 'A',
+    'A': 'U',
+}
+
 
 def to_rna(dna: str) -> str:
-    rna = ''
-    for i in dna:
-        if i == 'G':
-            rna += 'C'
-        elif i == 'C':
-            rna += 'G'
-        elif i == 'T':
-            rna += 'A'
-        elif i == 'A':
-            rna += 'U'
-    return rna
+    return ''.join([MAPPING[i] for i in dna])
 
 
-assert to_rna('ACGTGGTCTTAA') == 'UGCACCAGAAUU'
+assert to_rna("C") == "G"
+assert to_rna("G") == "C"
+assert to_rna("T") == "A"
+assert to_rna("A") == "U"
+assert to_rna("ACGTGGTCTTAA") == "UGCACCAGAAUU"
