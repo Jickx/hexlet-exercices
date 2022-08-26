@@ -8,11 +8,11 @@
 def memoized(function):
     memory = {}
 
-    def inner(num):
-        memoized_result = memory.get(num)
+    def inner(number):
+        memoized_result = memory.get(number)
         if memoized_result is None:
-            memoized_result = function(num)
-            memory[num] = memoized_result
+            memoized_result = function(number)
+            memory[number] = memoized_result
         return memoized_result
     return inner
 
