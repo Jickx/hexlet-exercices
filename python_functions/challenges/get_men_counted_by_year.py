@@ -2,19 +2,20 @@
 # список пользователей и возвращает словарь, в котором ключ — это год
 # рождения, а значение — количество мужчин, родившихся в этот год.
 
-from datetime import datetime
 from collections import Counter
+from datetime import datetime
+
+
+def get_year_from_str(user: dict) -> int:
+    date = datetime.strptime(user, "%Y-%m-%d")
+    return date.year
 
 
 def get_men_counted_by_year(users: list[dict]) -> dict:
-    birthdays_list = []
-    for user in users:
-        if user['gender'] == 'female':
-            continue
-        date = datetime.strptime(user['birthday'], "%Y-%m-%d")
-        birthdays_list.append(date.year)
-    birthdays_ctr = dict(Counter(birthdays_list))
-    return birthdays_ctr
+    male = filter(lambda user: user['gender'] == 'male', users)
+    birth_years = map(lambda user: get_year_from_str(user['birthday']), male)
+    result = Counter(birth_years)
+    return dict(result)
 
 
 users = [
