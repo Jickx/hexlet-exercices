@@ -2,18 +2,11 @@
 # представления линейного сигнала и возвращает строку с бинарным кодом.
 
 def decode(signal: str) -> str:
-    status = False
-    result = ''
-    for i in signal:
-        if i == '|':
-            status = True
-            continue
-        if status:
-            result += '1'
-            status = False
-        else:
-            result += '0'
-            status = False
+    levels = ''.join(filter(lambda x: x != '|', signal))
+    levels_shifted = signal[:1] + levels
+    result = ''.join(map(lambda x, y: '1' if x != y else '0',
+                         levels_shifted,
+                         levels))
     return result
 
 
