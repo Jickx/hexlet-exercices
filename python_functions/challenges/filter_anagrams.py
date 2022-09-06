@@ -5,13 +5,14 @@
 # функция должна уметь находить анаграммы любых последовательностей, в том
 # числе списков и кортежей. То есть решение должно быть максимально общим.
 
+def sorted_anagram(anagram):
+    return sorted(anagram)
+
+
 def filter_anagrams(anagram: str, sequence: any) -> any:
-    result = []
-    anagram = sorted(anagram)
-    for i in sequence:
-        if anagram == sorted(i):
-            result.append(i)
-    return result
+    return filter(
+        lambda item: sorted_anagram(item) == sorted(anagram),
+        sequence)
 
 
 assert list(filter_anagrams('abba', ['aabb', 'abcd', 'bbaa', 'dada'])) == [
