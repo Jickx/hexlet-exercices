@@ -2,7 +2,7 @@
 # подсчитывать количество уникальных букв в строке-аргументе без учёта регистра
 
 def number_of_unique_letters(some_string: str) -> int:
-    return len(set([i.lower() for i in some_string if i.isalpha()]))
+    return len({i.lower() for i in some_string if i.isalpha()})
 
 
 assert number_of_unique_letters("") == 0
