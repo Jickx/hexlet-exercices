@@ -2,19 +2,24 @@
 # штуки:
 
 # my_map(f, xs), которая должна работать как упрощенная версия map()
-def my_map(f, xs) -> iter:
-    return (f(i) for i in xs)
+def my_map(f, xs):
+    for i in xs:
+        yield f(i)
 
 
 # my_filter(f, xs), упрощенный вариант filter()
-def my_filter(f, xs) -> iter:
-    return (i for i in xs if f(i))
+def my_filter(f, xs):
+    for i in xs:
+        if f(i):
+            yield i
 
 
 # replicate_each(n, xs) должен для каждого элемента итератора xs выдавать на
 # выход по n копий этого элемента
 def replicate_each(n, xs):
-    return (item for item in xs for _ in range(n))
+    for i in xs:
+        for _ in range(n):
+            yield i
 
 
 assert list(my_map(abs, [-1, 2, -3])) == [1, 2, 3]
