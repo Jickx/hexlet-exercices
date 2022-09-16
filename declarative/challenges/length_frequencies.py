@@ -7,18 +7,37 @@
 # использованием comprehensions. Возможно, вам пригодится функция
 # itertools.groupby().
 
-
-from collections import defaultdict
+from itertools import groupby
 
 
 def length_frequencies(words: list[str]) -> dict:
-    result = defaultdict(int)
-    for word in words:
-        result[len(word)] += 1
-    return dict(result)
+    return {k: len(list(g)) for k, g in
+            groupby(sorted([len(i) for i in words]))}
 
 
-print(length_frequencies([]))  # {}
-print(length_frequencies(['abcde']))  # {5: 1}
-print(length_frequencies(['a', 'b', 'c']))  # {1: 3}
-print(length_frequencies('Use the Force, Luke!'.split()))  # {3: 2, 5: 1, 6: 1}
+assert length_frequencies([]) == {}
+assert length_frequencies(['abcde']) == {5: 1}
+assert length_frequencies(['a', 'b', 'c']) == {1: 3}
+assert length_frequencies('Use the Force, Luke!'.split()) == {3: 2, 5: 1, 6: 1}
+assert length_frequencies(
+    """Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+aliquip ex ea commodo consequat. Duis aute irure dolor in
+reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+culpa qui officia deserunt mollit anim id est laborum.""".split(),
+) == {
+           2: 13,
+           3: 5,
+           4: 9,
+           5: 12,
+           6: 7,
+           7: 9,
+           8: 3,
+           9: 5,
+           10: 3,
+           11: 1,
+           12: 1,
+           13: 1,
+       }
