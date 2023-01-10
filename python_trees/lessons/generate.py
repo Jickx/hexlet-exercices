@@ -19,14 +19,14 @@ from pprint import pprint
 
 
 def generate():
-    tree = mkdir('python-package', [
+    return mkdir('python-package', [
         mkfile('Makefile'),
         mkfile('README.md'),
         mkdir('dist', []),
         mkdir('tests', [
-            mkfile('test_solution.py')
+            mkfile('test_solution.py'),
         ]),
-        mkfile('pyproject,toml'),
+        mkfile('pyproject.toml'),
         mkdir('.venv', [
             mkdir('lib', [
                 mkdir('python3.6', [
@@ -37,7 +37,6 @@ def generate():
             ])
         ], {'owner': 'root', 'hidden': False})
     ], {'hidden': True})
-    return tree
 
 
 pprint(generate())
