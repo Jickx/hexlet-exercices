@@ -1,13 +1,12 @@
 # Реализуйте функцию remove_first_level(), которая принимает на вход дерево и
 # возвращает новое, элементами которого являются дети вложенных узлов.
 
+from itertools import chain
+
 
 def remove_first_level(tree: list) -> list:
-    lst = []
-    child_list = [x for x in tree if isinstance(x, list)]
-    for x in child_list:
-        lst.extend(x)
-    return lst
+    childrens = filter(lambda node: isinstance(node, list), tree)
+    return list(chain(*childrens))
 
 
 tree1 = [[5], 1, [3, 4]]
