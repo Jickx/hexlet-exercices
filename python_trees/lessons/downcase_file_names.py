@@ -4,52 +4,66 @@
 # директории возвращается наружу:
 
 
+from hexlet.fs import mkdir, mkfile, get_children, get_name, is_file, get_meta
 import copy
-
-from hexlet.fs import get_children, get_meta, get_name, is_file, mkdir, mkfile, is_directory
-from pprint import pprint
 
 
 def downcase_file_names(node):
-    new_meta = copy.deepcopy(get_meta(node))
-    name = get_name(node)
-    if is_file(node):
-        return mkfile(name.lower(), new_meta)
-    children = get_children(node)
-    new_children = map(downcase_file_names, children)
-    return mkdir(name, list(new_children), new_meta)
+    new_node = copy.deepcopy(node)
+    name = get_name(new_node)
+    meta = get_meta(new_node)
+    if is_file(new_node):
+        return mkfile(name.lower(), meta)
+    childrens = get_children(new_node)
+    new_childrens = list(map(downcase_file_names, childrens))
+    return mkdir(name, new_childrens, meta)
 
 
-from hexlet import fs
-
-
-tree = fs.mkdir('/', [
-    fs.mkdir('etc', [
-        fs.mkfile('bashrc'),
-        fs.mkfile('consul.cfg'),
+tree = mkdir('/', [
+    mkdir('eTc', [
+        mkdir('NgiNx', [], {'size': 4000}),
+        mkdir(
+            'CONSUL',
+            [mkfile('config.JSON', {'uid': 0})],
+        ),
     ]),
-    fs.mkfile('hexletrc'),
-    fs.mkdir('bin', [
-        fs.mkfile('ls'),
-        fs.mkfile('cat'),
-    ]),
+    mkfile('hOsts'),
 ])
 
+expected = {
+        'name': '/',
+        'meta': {},
+        'type': 'directory',
+        'children': [
+            {
+                'name': 'eTc',
+                'meta': {},
+                'type': 'directory',
+                'children': [
+                    {
+                        'name': 'NgiNx',
+                        'meta': {'size': 4000},
+                        'type': 'directory',
+                        'children': [],
+                    },
+                    {
+                        'name': 'CONSUL',
+                        'meta': {},
+                        'type': 'directory',
+                        'children': [
+                            {
+                                'name': 'config.json',
+                                'type': 'file',
+                                'meta': {'uid': 0},
+                            },
+                        ],
+                    },
+                ],
+            },
+            {'name': 'hosts', 'type': 'file', 'meta': {}},
+        ],
+    }
 
-# В реализации используем рекурсивный процесс,
-# чтобы добраться до самого дна дерева.
-def get_nodes_count(node):
-    if fs.is_file(node):
-        # Возвращаем 1 для учета текущего файла
-        return 1
-    # Если узел — директория, получаем его детей
-    children = fs.get_children(node)
-    # Самая сложная часть
-    # Считаем количество потомков для каждого из детей,
-    # вызывая рекурсивно нашу функцию get_nodes_count
-    descendant_counts = list(map(get_nodes_count, children))
-    # Возвращаем 1 (текущая директория) + общее количество потомков
-    return 1 + sum(descendant_counts)
 
+assert downcase_file_names(tree) == expected
 
-print(get_nodes_count(tree))
