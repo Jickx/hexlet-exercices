@@ -9,12 +9,12 @@
 
 
 def convert(tree):
-    def to_item(item):
-        key, value = item
+
+    def walk(subtree):
+        key, value = subtree
         return key, convert(value) if isinstance(value, list) else value
 
-    return dict(map(to_item, tree))
-
+    return dict(map(walk, tree))
 
 tree = [
     ['key4', 'value4'],
