@@ -7,77 +7,76 @@
 # в котором переданный узел является корневым.
 
 
-def build_tree_dict(subtree, parent=None, result_dict={}):
-    if len(subtree) == 2 and not isinstance(subtree[0], list):
-        [node, child] = subtree
-        result_dict[node] = parent
-        parent = node
-        return build_tree_dict(child, parent)
-    for item in subtree:
-        if len(item) == 1:
-            [node] = item
-            result_dict[node] = parent
-        else:
-            build_tree_dict(item, parent)
-    return result_dict
+def build_routes(tree, routes):
+    if len(tree) == 1:
+        item = tree[0]
+        routes[item] = []
+        return item
 
-list_of_lists = []
+    item, neighbours = tree
+    routes[item] = []
 
-
-def build_tree_list(tree):
-    result = []
-    keys_list = [k for k in tree]
-
-    def walk(subtree):
-        for value in subtree.values():
-            if value in values_set:
-                result.append([value, ])
+    for tree in neighbours:
+        neighbour = build_routes(tree, routes)
+        routes[item].append(neighbour)
+        routes[neighbour].append(item)
+    return item
 
 
-    return
+def build_tree(routes, tree):
+    for k, v in routes.items():
+        if len(v) == 1:
+            return [v]
+        item = k
+        parent = v[-1]
+        childrens = v[:-1]
+        tree.append([childrens, [item]])
 
-
-from itertools import count
-def key_to_values(tree):
-    RvsD = dict()
-    for k, v in tree.items():
-        RvsD.setdefault(v, []).append(k)
-    return RvsD
-
-
+    return tree
 
 
 def transform(tree, new_node):
-    return build_tree_dict(tree)
+    print(tree)
+    routes = {}
+    build_routes(tree, routes)
+    tree = []
+    build_tree(routes, tree)
+    print(routes)
+    print(tree)
 
 
 tree = ['A', [
-    ['B', [
-        ['D'],
-    ]],
-    ['C', [
-        ['E'],
-        ['F'],
-    ]],
+            ['B', [
+                ['D'],
+            ]],
+            ['C', [
+                ['E'],
+                ['F'],
+            ]],
 ]]
+
+# ['B', [
+#     ['D'],
+#     ['A', [
+#         ['C', [
+#             ['E'],
+#             ['F'],
+#         ]],
+#     ]],
+# ]]
+
+print(transform(tree, 'a'))
+
+#   B
+#  / \
+# D   A
+#      \
+#       C
+#      / \
+#     E   F
 
 #     A
 #    / \
 #   B   C
 #  /   / \
 # D   E   F
-
-
-print(transform(tree, 'B'))
-print(tree)
-print(key_to_values({'A': None, 'B': 'A', 'C': 'A', 'D': 'B', 'E': 'C', 'F': 'C'}))
-
-# ['B', [                 #   B
-#     ['D'],              #  / \
-#     ['A', [             # D   A
-#         ['C', [         #      \
-#             ['E'],      #       C
-#             ['F'],      #      / \
-#         ]],             #     E   F
-#     ]],
-# ]]
