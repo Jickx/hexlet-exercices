@@ -26,13 +26,17 @@ class Counter(object):
 
 class LimitedCounter(Counter):
     def __init__(self, limit):
-        super().__init__()
         self.limit = limit
+        self._value = 0
+        super().__init__()
 
-    def inc(self, amount=1):
-        super().inc(amount)
-        if self.value > self.limit:
-            self.value = self.limit
+    @property
+    def value(self):
+        return self._value
+
+    @value.setter
+    def value(self, new_value):
+        self._value = min(max(new_value, 0), self.limit)
 
 
 counter = LimitedCounter(limit=10)
