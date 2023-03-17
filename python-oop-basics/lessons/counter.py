@@ -1,29 +1,27 @@
-# Реализуйте класс Counter, представляющий собой счётчик, хранящий
-# неотрицательное целочисленное значение и позволяющий это значение изменять:
-# атрибут value должен хранить текущее значение счётчика (вначале равное нулю)
-# метод inc() должен увеличивать текущее значение на delta единиц (на 1 по
-# умолчанию)
-# метод dec() должен уменьшать текущее значение на delta единиц (на 1 по
-# умолчанию)
+# Вам предстоит снова реализовать класс Counter. Но на этот раз счётчик
+# будет иммутабельным и всё ещё неотрицательным целочисленным. Методы inc()
+# и dec() должны возвращать новый счётчик с изменённым в большую или
+# соответственно меньшую сторону значением value (по умолчанию счётчик
+# изменяется на единицу).
 
 
 class Counter:
-    value = 0
+    def __init__(self, value=0):
+        self.value = max(value, 0)
 
     def inc(self, delta=1):
-        self.value += delta
+        return Counter(self.value + delta)
 
     def dec(self, delta=1):
-        self.value -= delta
+        return self.inc(- delta)
 
 
 c = Counter()
-c.inc()
-c.inc()
-c.inc(40)
-print(c.value)  # 42
-c.dec()
-c.dec(30)
-print(c.value)  # 11
-c.dec(delta=100)
-print(c.value)  # 0
+print(c.inc().inc(5).dec(2).value)  # 4
+
+# Старый экземпляр не должен изменяться
+d = c.inc(100)
+print(d.dec().value)  # 99
+
+forty_two = Counter(42)
+print(forty_two.value)  # 42
