@@ -10,22 +10,23 @@
 from functools import wraps
 
 
-def memoizing(limit):
-    def wrapper(function):
-        memory = {}
-        order = []
+def memoizing(num_of_mem_slots):
 
-        @wraps(function)
-        def inner(number):
-            memoizing_result = memory.get(number)
-            if memoizing_result is None:
-                memoizing_result = function(number)
-                memory[number] = memoizing_result
-                order.append(number)
-            if len(order) > limit:
-                oldest_element = order.pop(0)
-                memory.pop(oldest_element)
-            return memoizing_result
+    def wrapper(func):
+        memory = {}
+        slots = []
+
+        @wraps(func)
+        def inner(num):
+            if num in memory:
+                return memory[num]
+            res = func(num)
+            memory[num] = res
+            slots.append(num)
+            if len(slots) > num_of_mem_slots:
+                del_slot = slots.pop(0)
+                del memory[del_slot]
+            return res
         return inner
     return wrapper
 
